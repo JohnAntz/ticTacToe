@@ -3,3 +3,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.board-cell {
+  background-color: black;
+  height: 20px;
+  width: 20px;
+  margin: 10px;
+}
