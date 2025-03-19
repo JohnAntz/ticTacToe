@@ -57,7 +57,7 @@ input::placeholder {
 button {
   margin-top: 15px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.1s;
 }
 
 button:active {
