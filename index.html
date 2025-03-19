@@ -8,18 +8,30 @@
     <title>Tic-Tac-Toe</title>
   </head>
   <body>
-    <header><h1>TIC-TAC-TOE</h1></header>
-    <section>
-      <div id="gameBoard"></div>
-    </section>
-    <aside>
-      <div id="scores">
-        <p>
-          Player 1: <br />
-          Player 2:
-        </p>
+    <main>
+      <header>
+        <h1>TIC-TAC-TOE</h1>
+        <section>
+          <form action="">
+            <input type="text" placeholder="Player X Name" id="X" />
+            <input type="text" placeholder="Player O Name" id="O" />
+          </form>
+          <button id="playGame">Play Game</button>
+          <button id="resetGame">Reset Game</button>
+        </section>
+      </header>
+
+      <div id="gameBoard">
+        <div class="cell">0</div>
+        <div class="cell">1</div>
+        <div class="cell">2</div>
+        <div class="cell">3</div>
+        <div class="cell">4</div>
+        <div class="cell">5</div>
+        <div class="cell">6</div>
+        <div class="cell">7</div>
+        <div class="cell">8</div>
       </div>
-      <button id="playRound">Play Round</button>
-    </aside>
+    </main>
   </body>
 </html>
