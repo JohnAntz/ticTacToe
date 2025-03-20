@@ -13,17 +13,32 @@ const gameLogic = (event) => {
   };
   console.log(players);
   //XO Selection
-  const xoSelection = () => {
-    console.log("HELLO");
+  const xoSelection = (event) => {
+    const cell = event.target;
+    if (!cell.textContent) {
+      cell.textContent = "X";
+    }
   };
-  //Gameboard setup
-  (function () {
-    const cells = document.querySelectorAll(".cell");
-    cells.forEach((cell) => {
-      cell.addEventListener("click", xoSelection);
-    });
-  })();
+  //Add event listener (click) to each cell
+  const cells = document.querySelectorAll(".cell");
+  cells.forEach((cell) => {
+    cell.addEventListener("click", xoSelection);
+  });
 };
+
+//Gameboard setup
+(function () {
+  //Store each cell as an object inside an array
+  const container = document.getElementById("gameBoard");
+  const cellArray = Array.from(container.querySelectorAll(".cell"));
+  const boardArray = cellArray.map((cell, index) => ({
+    class: cell.className,
+    text: cell.textContent,
+    index,
+    element: cell,
+  }));
+  return boardArray;
+})();
 
 //Event listener on submit button
 document.getElementById("playGame").addEventListener("click", gameLogic);
