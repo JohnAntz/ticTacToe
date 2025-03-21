@@ -1,23 +1,28 @@
-//Initialize game
-//const gameInit = (data) => {};
-
-//Global object
-//const gameVariables = (data) => {};
-
 //Game logic
 const gameLogic = (event) => {
   event.preventDefault();
-  const players = {
-    X: document.getElementById("X").value.trim() || "Player X",
-    O: document.getElementById("O").value.trim() || "Player O",
-  };
-  console.log(players);
-  //XO Selection
+  const playerInputs = Array.from(document.querySelectorAll(".inputs"));
+  const players = playerInputs.map((input) => ({
+    id: input.id,
+    name: input.value.trim() || input.placeholder,
+  }));
+
+  //Player turn logic
+  let currentPlayer = players[0];
+  function playerTurn() {
+    if (currentPlayer === players[0]) {
+      currentPlayer = players[1];
+    } else {
+      currentPlayer = players[0];
+    }
+  }
+  //Cell click logic
   const xoSelection = (event) => {
     const cell = event.target;
     if (!cell.textContent) {
-      cell.textContent = "X";
+      cell.textContent = `${currentPlayer.id}`;
     }
+    playerTurn();
   };
   //Add event listener (click) to each cell
   const cells = document.querySelectorAll(".cell");
@@ -31,13 +36,11 @@ const gameLogic = (event) => {
   //Store each cell as an object inside an array
   const container = document.getElementById("gameBoard");
   const cellArray = Array.from(container.querySelectorAll(".cell"));
-  const boardArray = cellArray.map((cell, index) => ({
-    class: cell.className,
+  return cellArray.map((cell, index) => ({
     text: cell.textContent,
     index,
-    element: cell,
+    playerSelection: null,
   }));
-  return boardArray;
 })();
 
 //Event listener on submit button
