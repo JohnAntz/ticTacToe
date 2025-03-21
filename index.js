@@ -19,8 +19,13 @@ const gameLogic = (event) => {
   //Cell click logic
   const xoSelection = (event) => {
     const cell = event.target;
+    const cellIndex = Array.from(document.querySelectorAll(".cell")).indexOf(
+      cell
+    );
     if (!cell.textContent) {
       cell.textContent = `${currentPlayer.id}`;
+      boardArray[cellIndex].playerSelection = currentPlayer.id;
+      console.log(boardArray);
     }
     playerTurn();
   };
@@ -32,15 +37,19 @@ const gameLogic = (event) => {
 };
 
 //Gameboard setup
-(function () {
-  //Store each cell as an object inside an array
+const boardArray = (function () {
+  // Store each cell as an object inside an array
   const container = document.getElementById("gameBoard");
   const cellArray = Array.from(container.querySelectorAll(".cell"));
-  return cellArray.map((cell, index) => ({
+
+  // Create an array of objects for each cell
+  let boardArray = cellArray.map((cell, index) => ({
     text: cell.textContent,
     index,
     playerSelection: null,
   }));
+
+  return boardArray;
 })();
 
 //Event listener on submit button
