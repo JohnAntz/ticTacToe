@@ -16,6 +16,33 @@ const gameLogic = (event) => {
       currentPlayer = players[0];
     }
   }
+  //Check win function
+  function checkWin() {
+    const winningCombinations = [
+      [0, 1, 2], // Top row
+      [3, 4, 5], // Middle row
+      [6, 7, 8], // Bottom row
+      [0, 3, 6], // Left column
+      [1, 4, 7], // Middle column
+      [2, 5, 8], // Right column
+      [0, 4, 8], // Diagonal from top-left
+      [2, 4, 6], // Diagonal from top-right
+    ];
+
+    for (const combination of winningCombinations) {
+      const [a, b, c] = combination;
+
+      if (
+        boardArray[a].playerSelection &&
+        boardArray[a].playerSelection === boardArray[b].playerSelection &&
+        boardArray[a].playerSelection === boardArray[c].playerSelection
+      ) {
+        return currentPlayer;
+      }
+    }
+    return null;
+  }
+
   //Cell click logic
   const xoSelection = (event) => {
     const cell = event.target;
@@ -25,9 +52,16 @@ const gameLogic = (event) => {
     if (!cell.textContent) {
       cell.textContent = `${currentPlayer.id}`;
       boardArray[cellIndex].playerSelection = currentPlayer.id;
-      console.log(boardArray);
+
+      const winner = checkWin();
+      if (winner) {
+        setTimeout(() => {
+          alert(`${winner.name} (${winner.id}) wins!`);
+        }, 100);
+        return; // End the game if there's a winner
+      }
+      playerTurn();
     }
-    playerTurn();
   };
   //Add event listener (click) to each cell
   const cells = document.querySelectorAll(".cell");
@@ -54,3 +88,17 @@ const boardArray = (function () {
 
 //Event listener on submit button
 document.getElementById("playGame").addEventListener("click", gameLogic);
+
+//Reset button
+document.getElementById("resetGame").addEventListener("click", resetBoard);
+
+function resetBoard() {
+  boardArray.forEach((cell) => {
+    cell.playerSelection = null;
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.textContent = null;
+    });
+  });
+  let currentPlayer = players[0];
+}
