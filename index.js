@@ -40,6 +40,12 @@ const gameLogic = (event) => {
         return currentPlayer;
       }
     }
+    const allCellsFilled = boardArray.every(
+      (cell) => cell.playerSelection !== null
+    );
+    if (allCellsFilled) {
+      return "Draw";
+    }
     return null;
   }
 
@@ -57,13 +63,25 @@ const gameLogic = (event) => {
       const winner = checkWin();
       if (winner) {
         setTimeout(() => {
-          alert(`${winner.name} (${winner.id}) wins!`);
+          if (winner === "Draw") {
+            alert("It's a draw!");
+          } else {
+            alert(`${winner.name} (${winner.id}) wins!`);
+          }
         }, 100);
+        removeCellEventListeners();
         return; // End the game if there's a winner
       }
       playerTurn();
     }
   };
+  // Function to remove event listeners from all cells
+  function removeCellEventListeners() {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.removeEventListener("click", xoSelection);
+    });
+  }
   //Add event listener (click) to each cell
   const cells = document.querySelectorAll(".cell");
   cells.forEach((cell) => {
