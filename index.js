@@ -52,6 +52,7 @@ const gameLogic = (event) => {
     if (!cell.textContent) {
       cell.textContent = `${currentPlayer.id}`;
       boardArray[cellIndex].playerSelection = currentPlayer.id;
+      cell.classList.add(`${currentPlayer.id}Selected`);
 
       const winner = checkWin();
       if (winner) {
@@ -68,6 +69,22 @@ const gameLogic = (event) => {
   cells.forEach((cell) => {
     cell.addEventListener("click", xoSelection);
   });
+
+  //Reset button
+  document.getElementById("resetGame").addEventListener("click", resetBoard);
+
+  //Reset button logic
+  function resetBoard() {
+    boardArray.forEach((cell) => {
+      cell.playerSelection = null;
+      const cells = document.querySelectorAll(".cell");
+      cells.forEach((cell) => {
+        cell.textContent = "";
+        cell.classList.remove("XSelected", "OSelected");
+      });
+    });
+    currentPlayer = players[0];
+  }
 };
 
 //Gameboard setup
@@ -88,17 +105,3 @@ const boardArray = (function () {
 
 //Event listener on submit button
 document.getElementById("playGame").addEventListener("click", gameLogic);
-
-//Reset button
-document.getElementById("resetGame").addEventListener("click", resetBoard);
-
-function resetBoard() {
-  boardArray.forEach((cell) => {
-    cell.playerSelection = null;
-    const cells = document.querySelectorAll(".cell");
-    cells.forEach((cell) => {
-      cell.textContent = null;
-    });
-  });
-  let currentPlayer = players[0];
-}
